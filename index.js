@@ -51,8 +51,40 @@ app.get("/posts", (req,res)=>
 
 
 //CHALLENGE 2: GET a specific post by id
+//CHALLENGE 1: GET All posts
+app.get("/posts/:id", (req,res)=>
+{
+  
+ const post = posts.find(p => p.id === parseInt(req.params.id));
+ if (!post) {
+   return res.status(404).json({ error: "Post not found" });
+ }
+
+ res.json(post);
+
+});
+
 
 //CHALLENGE 3: POST a new post
+app.post("/posts", (req,res)=>
+{
+  const lastPostId = posts[posts.length - 1].id;
+  const newPostId = lastPostId + 1;
+
+  const newPostData =
+  {
+    id: newPostId,
+    title: req.body.title,
+    content: req.body.content,
+    author: req.body.author,
+    date: req.body.date,
+  };
+
+  posts.push(newPostData);
+  res.json(newPostData);
+
+});
+
 
 //CHALLENGE 4: PATCH a post when you just want to update one parameter
 
